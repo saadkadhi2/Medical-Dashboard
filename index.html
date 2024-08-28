@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HealthCare Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+    <script defer src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="greyBackground">
+    <div class="topMenu">
+        <img class="techCareLogo" src="./images/TestLogo.png" alt="">
+        <div class="menuButtonContainer">
+            <button class="topMenuButton menuButtonText topMenuButtonVisited"><img class="menuButtonIcon" src="./images/home_FILL0_wght300_GRAD0_opsz24.png" alt="">Overview</button>
+            <button class="topMenuButton menuButtonText"><img class="menuButtonIcon" src="./images/group_FILL0_wght300_GRAD0_opsz24@2x.png" alt="">Patients</button>
+            <button class="topMenuButton menuButtonText"><img class="menuButtonIcon" src="./images/credit_card_FILL0_wght300_GRAD0_opsz24.png" alt="">Schedule</button>
+            <button class="topMenuButton menuButtonText"><img class="menuButtonIcon" src="./images/chat_bubble_FILL0_wght300_GRAD0_opsz24.png" alt="">Message</button>
+            <button class="topMenuButton menuButtonText"><img class="menuButtonIcon" src="./images/calendar_today_FILL0_wght300_GRAD0_opsz24.png" alt="">Transactions</button>
+        </div>
+        <div class="doctorProfileContainer">
+            <img height="44" src="./images/senior-woman-doctor-and-portrait-smile-for-health-2023-11-27-05-18-16-utc.png" alt="">
+            <div class="doctorTextContainer">
+                <p class="doctorName">Dr. Jose Simmons</p>
+                <p class="doctorOccupation">General Practitioner</p>
+            </div>
+            <button class="doctorButton"><img class="gearIcon" height="20" src="./images/settings_FILL0_wght300_GRAD0_opsz24.png" alt=""></button>
+            <button class="doctorButton"><img height="18" src="./images/more_vert_FILL0_wght300_GRAD0_opsz24.png" alt=""></button>
+        </div>
+        
+    </div>
+    <div class="dashboardInfoContainer">
+        <div class="patientsContainer">
+            <h1>Patients</h1>
+        </div>
+        <div class="historyContainer">
+            <h1>Diagnosis History</h1>
+            <div class="bloodPressureContainer">
+                <div class="row">
+                    <div class="col-8">
+                        <p class="bloodPressure">Blood Pressure</p>
+                        <p class="selectedTime">Last 6 months</p>
+                        <div class="selectedTimeDropdown">
+                            <span><img src="./images/expand_more_FILL0_wght300_GRAD0_opsz24.png" alt=""></span>
+                            <div class="dropdownContent">
+                                <p timeSpan="3">3 months</p>
+                                <p timeSpan="6">6 months</p>
+                                <p timeSpan="12">1 year</p>
+                                <p timeSpan="24">2 years</p>
+                            </div>
+                        </div>
+                        <div class="canvasGraph">
+                            <canvas id="myChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="bpInfo">
+                            <div class="row w-100">
+                                <div class="col-12">
+                                    <div id="systolicIcon"></div>
+                                    <p class="textSystolic">Systolic</p>
+                                </div>
+                            </div>
+                            <p id="systolicAmount">160</p>
+                            <div class="row w-100">
+                                <div class="col-12 mb-3 systolicBorder">
+                                    <img id="sysIndicator" style="margin: 25px 0" height="6px"  src="./images/ArrowUp.png" alt="">
+                                    <p class="averageSystolic">Higher than average</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div id="diastolicIcon"></div>
+                                    <p class="textDiastolic">Diastolic</p>
+                                </div>
+                            </div>
+                            <p id="diastolicAmount">78</p>
+                            <img id="diaIndicator"  style="margin: 25px 0" height="6px" src="./images/ArrowDown.png" alt="">
+                            <p class="averageDiastolic">Lower than average</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="respiratoryContainer">
+                <img height="96px" style="margin: 16px" src="./images/respiratory%20rate.png" alt="">
+                <p class="respiratoryTitle">Respiratory Rate</p>
+                <p class="respiratoryAmount">20 bpm</p>
+                <p class="averageRespiratory"> Normal</p>
+            </div>
+            <div class="tempContainer">
+                <img height="96px" style="margin: 16px" src="./images/temperature.png" alt="">
+                <p class="temperatureTitle">Temperature</p>
+                <p class="temperatureAmount">98.6°F</p>
+                <p class="averageTemp"> Normal</p>
+            </div>
+            <div class="heartContainer">
+                <img height="96px" style="margin: 16px" src="./images/HeartBPM.png" alt="">
+                <p class="heartTitle">Heart Rate</p>
+                <p class="heartAmount">78 bpm</p>
+                <p class="averageHeart">Normal</p>
+            </div>
+        </div>
+        <div class="patientInfoContainer"></div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+</body>
+</html>
