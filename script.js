@@ -92,11 +92,61 @@ function selectPatient(patient) {
     const labels = filteredData.map(entry => entry.month.substring(0, 3) + ', ' + entry.year);
     const systolicBP = filteredData.map(entry => entry.blood_pressure.systolic.value);
     const diastolicBP = filteredData.map(entry => entry.blood_pressure.diastolic.value);
+
     updateBPInfo(systolicBP[systolicBP.length - 1], diastolicBP[diastolicBP.length - 1]);
     updateHealthParameters(lastRecord);
     document.querySelector('.selectedTime').textContent = "Last 6 months";
     createChart(labels, systolicBP, diastolicBP);
     updateChart(6, patient);
+
+    const diagnosticContainer = document.querySelector('.diagnosticContainer .custom-scrollbar-css');
+    diagnosticContainer.innerHTML = '';
+
+    patient.diagnostic_list.forEach(diagnosis => {
+        const diagnosisItem = document.createElement('div');
+        diagnosisItem.classList.add('diagnosisItem');
+
+        const problem = document.createElement('p');
+        problem.textContent = diagnosis.name;
+
+        const description = document.createElement('p');
+        description.textContent = diagnosis.description;
+
+        const status = document.createElement('p');
+        status.textContent = diagnosis.status;
+
+        diagnosisItem.appendChild(problem);
+        diagnosisItem.appendChild(description);
+        diagnosisItem.appendChild(status);
+
+        diagnosticContainer.appendChild(diagnosisItem);
+    });
+    document.querySelector('.infoProfile h1').textContent = patient.name;
+    document.querySelector('.infoProfile img').src = patient.profile_picture;
+    document.querySelector('.infoHoriz:nth-child(1) .infoText').textContent = patient.date_of_birth;
+    document.querySelector('.infoHoriz:nth-child(2) .infoText').textContent = patient.gender;
+    document.querySelector('.infoHoriz:nth-child(3) .infoText').textContent = patient.phone_number;
+    document.querySelector('.infoHoriz:nth-child(4) .infoText').textContent = patient.emergency_contact;
+    document.querySelector('.infoHoriz:nth-child(5) .infoText').textContent = patient.insurance_type;
+
+    const labContainer = document.querySelector('.labScroll');
+    labContainer.innerHTML = '';
+    patient.lab_results.forEach(result => {
+        const resultsItem = document.createElement('div');
+        resultsItem.classList.add('resultsItem');
+
+        const resultText = document.createElement('p');
+        resultText.textContent = result;
+
+        const downloadIcon = document.createElement('img');
+        downloadIcon.src = './images/download_FILL0_wght300_GRAD0_opsz24%20(1).png';
+        downloadIcon.alt = 'Download';
+
+        resultsItem.appendChild(resultText);
+        resultsItem.appendChild(downloadIcon);
+
+        labContainer.appendChild(resultsItem);
+    });
 }
 function updateBPInfo(systolic, diastolic) {
     const systolicAmount = document.getElementById('systolicAmount');

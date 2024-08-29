@@ -47,72 +47,147 @@
                 </div>
             </div>
         </div>
-        <div class="historyContainer">
-            <h1>Diagnosis History</h1>
-            <div class="bloodPressureContainer">
-                <div class="row">
-                    <div class="col-8">
-                        <p class="bloodPressure">Blood Pressure</p>
-                        <p class="selectedTime">Last 6 months</p>
-                        <div class="selectedTimeDropdown">
-                            <span><img src="./images/expand_more_FILL0_wght300_GRAD0_opsz24.png" alt=""></span>
-                            <div class="dropdownContent">
-                                <p timeSpan="3">3 months</p>
-                                <p timeSpan="6">6 months</p>
-                                <p timeSpan="12">1 year</p>
-                                <p timeSpan="24">2 years</p>
+        <div class="leftColumn">
+            <div class="historyContainer">
+                <h1>Diagnosis History</h1>
+                <div class="bloodPressureContainer">
+                    <div class="row">
+                        <div class="col-8">
+                            <p class="bloodPressure">Blood Pressure</p>
+                            <p class="selectedTime">Last 6 months</p>
+                            <div class="selectedTimeDropdown">
+                                <span><img src="./images/expand_more_FILL0_wght300_GRAD0_opsz24.png" alt=""></span>
+                                <div class="dropdownContent">
+                                    <p timeSpan="3">3 months</p>
+                                    <p timeSpan="6">6 months</p>
+                                    <p timeSpan="12">1 year</p>
+                                    <p timeSpan="24">2 years</p>
+                                </div>
+                            </div>
+                            <div class="canvasGraph">
+                                <canvas id="myChart"></canvas>
                             </div>
                         </div>
-                        <div class="canvasGraph">
-                            <canvas id="myChart"></canvas>
+                        <div class="col-4">
+                            <div class="bpInfo">
+                                <div class="row w-100">
+                                    <div class="col-12">
+                                        <div id="systolicIcon"></div>
+                                        <p class="textSystolic">Systolic</p>
+                                    </div>
+                                </div>
+                                <p id="systolicAmount">160</p>
+                                <div class="row w-100">
+                                    <div class="col-12 mb-3 systolicBorder">
+                                        <p class="averageSystolic">Higher than average</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div id="diastolicIcon"></div>
+                                        <p class="textDiastolic">Diastolic</p>
+                                    </div>
+                                </div>
+                                <p id="diastolicAmount">78</p>
+                                <p class="averageDiastolic">Lower than average</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-4">
-                        <div class="bpInfo">
-                            <div class="row w-100">
-                                <div class="col-12">
-                                    <div id="systolicIcon"></div>
-                                    <p class="textSystolic">Systolic</p>
-                                </div>
-                            </div>
-                            <p id="systolicAmount">160</p>
-                            <div class="row w-100">
-                                <div class="col-12 mb-3 systolicBorder">
-                                    <p class="averageSystolic">Higher than average</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <div id="diastolicIcon"></div>
-                                    <p class="textDiastolic">Diastolic</p>
-                                </div>
-                            </div>
-                            <p id="diastolicAmount">78</p>
-                            <p class="averageDiastolic">Lower than average</p>
+                </div>
+                <div class="respiratoryContainer">
+                    <img height="96px" style="margin: 16px" src="./images/respiratory%20rate.png" alt="">
+                    <p class="respiratoryTitle">Respiratory Rate</p>
+                    <p class="respiratoryAmount">20 bpm</p>
+                    <p class="averageRespiratory"> Normal</p>
+                </div>
+                <div class="tempContainer">
+                    <img height="96px" style="margin: 16px" src="./images/temperature.png" alt="">
+                    <p class="temperatureTitle">Temperature</p>
+                    <p class="temperatureAmount">98.6°F</p>
+                    <p class="averageTemp"> Normal</p>
+                </div>
+                <div class="heartContainer">
+                    <img height="96px" style="margin: 16px" src="./images/HeartBPM.png" alt="">
+                    <p class="heartTitle">Heart Rate</p>
+                    <p class="heartAmount">78 bpm</p>
+                    <p class="averageHeart">Normal</p>
+                </div>
+            </div>
+            <div class="diagnosticContainer">
+                <h1>Diagnostic List</h1>
+                <div class="tableHeader">
+                    <p class="tableHeader1">Problem/Diagnosis</p>
+                    <p class="tableHeader2">Description</p>
+                    <p class="tableHeader3">Status</p>
+                </div>
+                <div class="custom-scrollbar-css p-2">
+                    <div class="diagnosisItem">
+                        <p>Hypertension</p>
+                        <p>Chronic high blood pressure</p>
+                        <p>Under Observation</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="rightcolumn">
+            <div class="patientInfoContainer">
+                <div class="infoProfile">
+                    <img style="margin: 0;" src="./images/Layer 2.png" alt="">
+                    <h1>Jessica Taylor</h1>
+                </div>
+                <div class="infoVert">
+                    <div class="infoHoriz">
+                        <img src="./images/BirthIcon.png" alt="">
+                        <div>
+                            <p>Date Of Birth</p>
+                            <p class="infoText">Date Placeholder</p>
+                        </div>
+                    </div>
+                    <div class="infoHoriz">
+                        <img src="./images/FemaleIcon.png" alt="">
+                        <div>
+                            <p>Gender</p>
+                            <p class="infoText">Gender Placeholder</p>
+                        </div>
+                    </div>
+                    <div class="infoHoriz">
+                        <img src="./images/PhoneIcon.png" alt="">
+                        <div>
+                            <p>Contact Info.</p>
+                            <p class="infoText">Contact Placeholder</p>
+                        </div>
+                    </div>
+                    <div class="infoHoriz">
+                        <img src="./images/PhoneIcon.png" alt="">
+                        <div>
+                            <p>Emergency Contact</p>
+                            <p class="infoText">Contact Placeholder</p>
+                        </div>
+                    </div>
+                    <div class="infoHoriz">
+                        <img src="./images/InsuranceIcon.png" alt="">
+                        <div>
+                            <p>Insurance Provider</p>
+                            <p class="infoText">Insurance Placeholder</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: center">
+                        <div class="showAllInfo">
+                            <p>Show All Information</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="respiratoryContainer">
-                <img height="96px" style="margin: 16px" src="./images/respiratory%20rate.png" alt="">
-                <p class="respiratoryTitle">Respiratory Rate</p>
-                <p class="respiratoryAmount">20 bpm</p>
-                <p class="averageRespiratory"> Normal</p>
-            </div>
-            <div class="tempContainer">
-                <img height="96px" style="margin: 16px" src="./images/temperature.png" alt="">
-                <p class="temperatureTitle">Temperature</p>
-                <p class="temperatureAmount">98.6°F</p>
-                <p class="averageTemp"> Normal</p>
-            </div>
-            <div class="heartContainer">
-                <img height="96px" style="margin: 16px" src="./images/HeartBPM.png" alt="">
-                <p class="heartTitle">Heart Rate</p>
-                <p class="heartAmount">78 bpm</p>
-                <p class="averageHeart">Normal</p>
+            <div class="labContainer">
+                <h1>Lab Results</h1>
+                <div class="custom-scrollbar-css p-2 labScroll">
+                    <div class="resultsItem">
+                        <p>ResultsPlaceholder</p>
+                        <img src="./images/download_FILL0_wght300_GRAD0_opsz24%20(1).png" alt="">
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="patientInfoContainer"></div>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
