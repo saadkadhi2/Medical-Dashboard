@@ -5,8 +5,10 @@ btnList.forEach(topMenuBtn => {
         topMenuBtn.classList.add('topMenuButtonVisited');
     });
 });
+let myChartInstance;
 const credentials = btoa('coalition:skills-test');
-let jessica;
+let patientData;
+
 fetch('https://fedskillstest.coalitiontechnologies.workers.dev', {
     method: 'GET',
     headers: {
@@ -15,28 +17,88 @@ fetch('https://fedskillstest.coalitiontechnologies.workers.dev', {
 })
     .then(response => response.json())
     .then(data => {
-        jessica = data.find(patient => patient.name === 'Jessica Taylor');
-        if (jessica) {
-            const sortedData = [...jessica.diagnosis_history].sort((a, b) => {
-                const dateA = new Date(`${a.year}-${getMonthNumber(a.month)}-01`);
-                const dateB = new Date(`${b.year}-${getMonthNumber(b.month)}-01`);
-                return dateB - dateA;
+        patientData = data;
+        const container = document.querySelector('.custom-scrollbar-css');
+        container.innerHTML = '';
+        data.forEach(patient => {
+            const profileCard = document.createElement('div');
+            profileCard.classList.add('profileCard');
+
+            profileCard.addEventListener('click', () => {
+                document.querySelector('.profileCardVisited')?.classList.remove('profileCardVisited');
+                profileCard.classList.add('profileCardVisited');
+                selectPatient(patient);
             });
-            const filteredData = sortedData.slice(-6);
-            const lastRecord = filteredData[filteredData.length - 1];
-            const labels = filteredData.map(entry => entry.month.substring(0,3) + ', ' + entry.year);
-            const systolicBP = filteredData.map(entry => entry.blood_pressure.systolic.value);
-            const diastolicBP = filteredData.map(entry => entry.blood_pressure.diastolic.value);
-            updateBPInfo(systolicBP[systolicBP.length - 1], diastolicBP[diastolicBP.length - 1]);
-            updateHealthParameters(lastRecord);
-            document.querySelector('.selectedTime').textContent = "Last 6 months";
-            createChart(labels, systolicBP, diastolicBP);
-            updateChart(6);
+
+            const profileImage = document.createElement('img');
+            profileImage.src = patient.profile_picture || './images/default.png';
+            profileImage.height = 48;
+            profileCard.appendChild(profileImage);
+
+            const textContainer = document.createElement('div');
+            textContainer.style.display = 'flex';
+            textContainer.style.flexDirection = 'column';
+            textContainer.style.marginLeft = '18px';
+            textContainer.style.marginTop = '4px';
+
+            const profileName = document.createElement('p');
+            profileName.id = 'profileName';
+            profileName.textContent = patient.name;
+            profileName.style.fontWeight = 'bold';
+            profileName.style.margin = '0';
+            profileName.style.paddingBottom = '3px';
+            textContainer.appendChild(profileName);
+
+            const profileGenderAge = document.createElement('p');
+            profileGenderAge.id = 'profileGenderAge';
+            profileGenderAge.textContent = `${patient.gender}, ${patient.age}`;
+            profileGenderAge.style.margin = '0';
+            textContainer.appendChild(profileGenderAge);
+
+            profileCard.appendChild(textContainer);
+
+            const moreIcon = document.createElement('img');
+            moreIcon.src = './images/more_horiz_FILL0_wght300_GRAD0_opsz24.png';
+            moreIcon.style.marginLeft = 'auto';
+            moreIcon.style.marginRight = '15px';
+            moreIcon.width = 18;
+            moreIcon.height = 4;
+            profileCard.appendChild(moreIcon);
+
+            container.appendChild(profileCard);
+        });
+        if (patientData.length > 0) {
+            selectPatient(patientData[0]);
         }
     });
+
+
+function selectPatient(patient) {
+    document.querySelector('.profileCardVisited')?.classList.remove('profileCardVisited');
+    const allProfileCards = document.querySelectorAll('.profileCard');
+    allProfileCards.forEach(card => {
+        const nameElement = card.querySelector('p');
+        if (nameElement.textContent === patient.name) {
+            card.classList.add('profileCardVisited');
+        }
+    });
+    const sortedData = [...patient.diagnosis_history].sort((a, b) => {
+        const dateA = new Date(`${a.year}-${getMonthNumber(a.month)}-01`);
+        const dateB = new Date(`${b.year}-${getMonthNumber(b.month)}-01`);
+        return dateB - dateA;
+    });
+    const filteredData = sortedData.slice(-6);
+    const lastRecord = filteredData[filteredData.length - 1];
+    const labels = filteredData.map(entry => entry.month.substring(0, 3) + ', ' + entry.year);
+    const systolicBP = filteredData.map(entry => entry.blood_pressure.systolic.value);
+    const diastolicBP = filteredData.map(entry => entry.blood_pressure.diastolic.value);
+    updateBPInfo(systolicBP[systolicBP.length - 1], diastolicBP[diastolicBP.length - 1]);
+    updateHealthParameters(lastRecord);
+    document.querySelector('.selectedTime').textContent = "Last 6 months";
+    createChart(labels, systolicBP, diastolicBP);
+    updateChart(6, patient);
+}
 function updateBPInfo(systolic, diastolic) {
-    const systolicIndicator = document.getElementById('sysIndicator');
-    const diastolicIndicator = document.getElementById('diaIndicator');
     const systolicAmount = document.getElementById('systolicAmount');
     const diastolicAmount = document.getElementById('diastolicAmount');
     const averageSystolic = document.querySelector('.averageSystolic');
@@ -46,18 +108,14 @@ function updateBPInfo(systolic, diastolic) {
     diastolicAmount.textContent = diastolic;
 
     if (systolic > 120) {
-        averageSystolic.textContent = 'Higher than average';
-        systolicIndicator.src = "./images/ArrowUp.png";
+        averageSystolic.textContent = '⮝ Higher than normal';
     } else {
-        averageSystolic.textContent = 'Lower than average';
-        systolicIndicator.src = "./images/ArrowDown.png";
+        averageSystolic.textContent = '⮟ Lower than normal';
     }
     if (diastolic < 80) {
-        averageDiastolic.textContent = 'Lower than average';
-        diastolicIndicator.src = "./images/ArrowDown.png";
+        averageDiastolic.textContent = '⮟ Lower than normal';
     } else {
-        averageDiastolic.textContent = 'Higher than average';
-        diastolicIndicator.src = "./images/ArrowUp.png";
+        averageDiastolic.textContent = '⮝ Higher than normal';
     }
 }
 function updateHealthParameters(lastRecord) {
@@ -100,7 +158,10 @@ function updateHealthParameters(lastRecord) {
 }
 function createChart(labels, systolicBP, diastolicBP) {
     const ctx = document.getElementById('myChart');
-    new Chart(ctx, {
+    if (myChartInstance) {
+        myChartInstance.destroy();
+    }
+    myChartInstance = new Chart(ctx, {
         type: 'line',
         data: {
             labels: labels,
@@ -178,28 +239,110 @@ function createChart(labels, systolicBP, diastolicBP) {
 }
 document.querySelectorAll('.dropdownContent p').forEach(item => {
     item.addEventListener('click', event => {
-        const selectedTime = event.target.getAttribute('timeSpan');
+        const selectedTime = parseInt(event.target.getAttribute('timeSpan'), 10);
         document.querySelector('.selectedTime').textContent = "Last " + event.target.textContent;
-        updateChart(selectedTime);
+        const currentPatient = document.querySelector('.profileCardVisited');
+        if (currentPatient) {
+            console.log(currentPatient)
+            const patientName = currentPatient.querySelector('p').textContent;
+            const selectedPatient = patientData.find(patient => patient.name === patientName);
+            if (selectedPatient) {
+                updateChart(selectedTime, selectedPatient);
+            }
+        }
     });
 });
-function updateChart(timePeriod) {
-    const sortedData = [...jessica.diagnosis_history].sort((a, b) => {
+function updateChart(timePeriod, patient) {
+    const sortedData = [...patient.diagnosis_history].sort((a, b) => {
         const dateA = new Date(`${a.year}-${getMonthNumber(a.month)}-01`);
         const dateB = new Date(`${b.year}-${getMonthNumber(b.month)}-01`);
         return dateB - dateA;
     });
 
-    const filteredData = sortedData.slice(0, timePeriod); // Slice the first `timePeriod` elements
+    const filteredData = sortedData.slice(0, timePeriod);
     const labels = filteredData.map(entry => entry.month.substring(0, 3) + ', ' + entry.year);
     const systolicBP = filteredData.map(entry => entry.blood_pressure.systolic.value);
     const diastolicBP = filteredData.map(entry => entry.blood_pressure.diastolic.value);
 
-    const chart = Chart.getChart("myChart");
-    chart.data.labels = labels.reverse();
-    chart.data.datasets[0].data = systolicBP.reverse();
-    chart.data.datasets[1].data = diastolicBP.reverse();
-    chart.update();
+    if (myChartInstance) {
+        myChartInstance.destroy();
+    }
+
+    myChartInstance = new Chart(document.getElementById('myChart'), {
+        type: 'line',
+        data: {
+            labels: labels.reverse(),
+            datasets: [
+                {
+                    data: systolicBP.reverse(),
+                    borderColor: '#E66FD2',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    pointStyle: 'circle',
+                    pointRadius: 5,
+                    pointBackgroundColor: '#E66FD2',
+                    pointBorderColor: '#E66FD2'
+                },
+                {
+                    data: diastolicBP.reverse(),
+                    borderColor: '#8C6FE6',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    pointStyle: 'circle',
+                    pointRadius: 5,
+                    pointBackgroundColor: '#8C6FE6',
+                    pointBorderColor: '#8C6FE6'
+                }
+            ]
+        },
+        options: {
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        font: {
+                            family: "'Manrope', sans-serif",
+                            size: 12
+                        },
+                        maxRotation: 0,
+                        minRotation: 0
+                    },
+                    title: {
+                        font: {
+                            family: "'Manrope', sans-serif",
+                            size: 12
+                        }
+                    }
+                },
+                y: {
+                    beginAtZero: false,
+                    suggestedMin: 60,
+                    suggestedMax: 180,
+                    ticks: {
+                        font: {
+                            family: "'Manrope', sans-serif",
+                            size: 12,
+                        }
+                    },
+                    title: {
+                        font: {
+                            family: "'Manrope', sans-serif",
+                            size: 12
+                        }
+                    }
+
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
 }
 
 function getMonthNumber(monthName) {

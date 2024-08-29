@@ -171,6 +171,7 @@
     background: #F6F7F8 0% 0% no-repeat padding-box;
     opacity: 1;
     padding-top: 5px;
+    padding-bottom: 100px;
 }
 .techCareLogo {
     position: relative;
@@ -206,7 +207,6 @@
     background-color: #01F0D0;
 }
 .topMenuButtonVisited:hover {
-    transition: 0.5s;
     background-color: #01F0D0;
 }
 .menuButtonIcon {
@@ -415,6 +415,7 @@
     margin: 20px 0 4px 0;
 }
 #diastolicIcon {
+
     background: #8C6FE6;
     display: inline-block;
     width: 14px;
@@ -440,6 +441,8 @@
     display: inline-block;
     position: relative;
     top: 0px;
+    margin-top: 16px;
+    margin-bottom: 20px;
     font: 14px "Manrope", sans-serif;
 }
 .textDiastolic {
@@ -463,6 +466,7 @@
     display: inline-block;
     position: relative;
     top: 0px;
+    margin-top: 16px;
     font: 14px "Manrope", sans-serif;
 }
 .respiratoryContainer > p {
@@ -515,4 +519,61 @@
 .averageHeart {
     padding: 16px 0 0 16px;
     font: 14px "Manrope", sans-serif;
+}
+.custom-scrollbar-js,
+.custom-scrollbar-css {
+    height: 200px;
+}
+.custom-scrollbar-css {
+    overflow-y: scroll;
+    height: 90%;
+    margin: 5px;
+}
+.custom-scrollbar-css::-webkit-scrollbar {
+    width: 5px;
+}
+.custom-scrollbar-css::-webkit-scrollbar-track {
+    background: #E3E4E6;
+}
+.custom-scrollbar-css::-webkit-scrollbar-thumb {
+    border-radius: 1rem;
+    background-color: #072635;
+}
+.profileCard {
+    display: flex;
+    width: 97%;
+    margin-left: 10px;
+    align-items: center;
+    border-radius: 10px;
+    padding: 10px 0 10px 5px;
+}
+.profileCard:hover {
+    transition: 0.2s;
+    background-color: #F6F7F8;
+}
+.profileCardVisited {
+    transition: 0.5s;
+    background-color: #D8FCF7;
+}
+.profileCardVisited:hover {
+    transition: 0.5s;
+    background-color: #D8FCF7;
+}
+.profileCard div {
+    display: flex;
+    flex-direction: column;
+    margin-left: 18px;
+    margin-top: 4px;
+}
+#profileName {
+    font: 14px "Manrope", sans-serif;
+    font-weight: bold;
+    margin: 0;
+    padding-bottom: 3px;
+    color: #072635;
+}
+#profileGenderAge {
+    margin: 0;
+    font: 14px "Manrope", sans-serif;
+    color: #707070;
 }
